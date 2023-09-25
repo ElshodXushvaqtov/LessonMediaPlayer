@@ -14,9 +14,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         var currentIndex = 0
+        var currentImage = 0
+        var currentText = 0
         val musics = mutableListOf<Int>()
         musics.add(R.raw.we_live)
         musics.add(R.raw.mozart)
+        val images = mutableListOf<Int>()
+        images.add(R.drawable.smurfcat)
+        images.add(R.drawable.mozart)
+        val songNames = mutableListOf<String>()
+        songNames.add("Smurf Cat")
+        songNames.add("Mozart")
+        binding.songName.text = songNames[currentText]
+        binding.bgImage.setImageResource(images[currentImage])
         var mediaPlayer: MediaPlayer = MediaPlayer.create(this, musics[currentIndex])
         binding.play.setOnClickListener {
             mediaPlayer.start()
@@ -27,19 +37,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.next.setOnClickListener {
-            if (currentIndex == 2) {
+            if (currentIndex == 2 && currentImage == 2 && currentText == 2) {
                 currentIndex = 0
+                currentImage = 0
+                currentText = 0
             }
             mediaPlayer.release()
             mediaPlayer = MediaPlayer.create(this, musics[currentIndex++])
+            binding.bgImage.setImageResource(images[currentImage++])
+            binding.songName.text=songNames[currentText++]
             mediaPlayer.start()
         }
 
-//        binding.next.setOnClickListener {
-//            mediaPlayer.pause()
-//            MediaPlayer.create(applicationContext, R.raw.mozart)
-//            mediaPlayer.start()
-//        }
+
         setContentView(binding.root)
     }
 }
